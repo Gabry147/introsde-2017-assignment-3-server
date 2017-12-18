@@ -25,22 +25,22 @@ public interface PersonActivities {
 	//#2
 	@WebMethod(operationName="readPerson")
     @WebResult(name="person") 
-    public List<Person> readPerson(@WebParam(name="personId") int id);
+    public Person readPerson(@WebParam(name="personId") int id);
 	
 	//#3
 	@WebMethod(operationName="updatePerson")
     @WebResult(name="person") 
-    public List<Person> updatePerson(@WebParam(name="person") Person p);
+    public Person updatePerson(@WebParam(name="person") Person p);
 	
 	//#4
 	@WebMethod(operationName="createPerson")
     @WebResult(name="person") 
-    public List<Person> createPerson(@WebParam(name="person") Person p);
+    public Person createPerson(@WebParam(name="person") Person p);
 	
 	//#5
 	@WebMethod(operationName="deletePerson")
     @WebResult(name="person") 
-    public List<Person> deletePerson(@WebParam(name="personId") int id);
+    public Person deletePerson(@WebParam(name="personId") int id);
 	
 	//#6
 	@WebMethod(operationName="readPersonPreferences")

@@ -15,7 +15,7 @@ public enum PersonActivitiesDao {
 		if (emf!=null) {
 			emf.close();
 		}
-		emf = Persistence.createEntityManagerFactory("sde2_server");
+		emf = Persistence.createEntityManagerFactory("sde3_server");
 	}
 
 	public EntityManager createEntityManager() {
