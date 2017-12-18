@@ -2,6 +2,8 @@ package introsde.assignment3.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -9,6 +11,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -19,6 +23,8 @@ import introsde.assignment3.dao.PersonActivitiesDao;
 
 
 @Entity
+@Table(name="Activity")
+@NamedQuery(name="Activity.findAll", query="SELECT a FROM Activity a")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement
 public class Activity implements Serializable{
@@ -41,6 +47,8 @@ public class Activity implements Serializable{
     protected ActivityType type;
        
     protected Date startdate;
+    
+    protected int preference;
     
 	public int getId() {
 		return id;
@@ -78,9 +86,22 @@ public class Activity implements Serializable{
 	public void setStartdate(Date startdate) {
 		this.startdate = startdate;
 	}
+	public int getPreference() {
+		return preference;
+	}
+	public void setPreference(int preference) {
+		this.preference = preference;
+	}
 	
 	public Activity() {
 		//needed for XML
+	}
+	
+	public static List<Activity> getAllActivities() {
+		EntityManager em = PersonActivitiesDao.instance.createEntityManager();
+	    List<Activity> list = em.createNamedQuery("Activity.findAll", Activity.class).getResultList();
+	    PersonActivitiesDao.instance.closeConnections(em);
+	    return list;
 	}
 
 	//db access functions

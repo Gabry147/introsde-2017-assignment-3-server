@@ -39,8 +39,7 @@ public interface PersonActivities {
 	
 	//#5
 	@WebMethod(operationName="deletePerson")
-    @WebResult(name="person") 
-    public Person deletePerson(@WebParam(name="personId") int id);
+    public void deletePerson(@WebParam(name="personId") int id);
 	
 	//#6
 	@WebMethod(operationName="readPersonPreferences")
@@ -71,7 +70,7 @@ public interface PersonActivities {
 	@WebMethod(operationName="evaluatePersonPreferences")
     @WebResult(name="activity") 
 	public Activity evaluatePersonPreferences(@WebParam(name="personId") int id, 
-			@WebParam(name="activity") Activity activity, 
+			@WebParam(name="activityId") int activityId, 
 			@WebParam(name="value") int value);	
 	
 	//#12
