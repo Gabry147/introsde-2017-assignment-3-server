@@ -3,9 +3,13 @@ package introsde.assignment3.soap;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.jws.WebService;
+
 import introsde.assignment3.entities.Activity;
 import introsde.assignment3.entities.Person;
 
+@WebService(endpointInterface = "introsde.assignment3.soap.PersonActivities",
+serviceName="PersonActivitiesService")
 public class PersonActivitiesImpl implements PersonActivities{
 
 	@Override
@@ -52,7 +56,7 @@ public class PersonActivitiesImpl implements PersonActivities{
 	}
 
 	@Override
-	public Activity readPersonPreferences(int personId, int activityId) {
+	public Activity readPersonPreference(int personId, int activityId) {
 		Activity activity = null;
 		List<Activity> activities = Person.getPersonById(personId).getActivitypreference();
 		for(Activity a: activities) {

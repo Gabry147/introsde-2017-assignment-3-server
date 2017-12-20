@@ -52,9 +52,9 @@ public interface PersonActivities {
     public List<Activity> readPreferences();
 
 	//#8
-	@WebMethod(operationName="readPersonPreferences")
+	@WebMethod(operationName="readPersonPreference")
     @WebResult(name="activity") 
-	public Activity readPersonPreferences(@WebParam(name="personId") int personId, @WebParam(name="activityId") int activityId);	
+	public Activity readPersonPreference(@WebParam(name="personId") int personId, @WebParam(name="activityId") int activityId);	
 	
 	//#9
 	@WebMethod(operationName="savePersonPreferences")
