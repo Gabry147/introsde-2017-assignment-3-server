@@ -16,7 +16,7 @@ import introsde.assignment3.entities.Person;
 @WebService
 @SOAPBinding(style = Style.DOCUMENT, use=Use.LITERAL) //optional
 public interface PersonActivities {
-
+//no overloading - no return equal to input ? -
 	//#1
 	@WebMethod(operationName="readPersonList")
     @WebResult(name="people") 
@@ -29,12 +29,12 @@ public interface PersonActivities {
 	
 	//#3
 	@WebMethod(operationName="updatePerson")
-    @WebResult(name="person") 
+    @WebResult(name="updatedPerson") 
     public Person updatePerson(@WebParam(name="person") Person p);
 	
 	//#4
 	@WebMethod(operationName="createPerson")
-    @WebResult(name="person") 
+    @WebResult(name="newPerson") 
     public Person createPerson(@WebParam(name="person") Person p);
 	
 	//#5
