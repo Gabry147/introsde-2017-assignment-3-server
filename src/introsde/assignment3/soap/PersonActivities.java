@@ -58,12 +58,12 @@ public interface PersonActivities {
 	
 	//#9
 	@WebMethod(operationName="savePersonPreferences")
-    @WebResult(name="activity") 
+    @WebResult(name="newActivity") 
 	public Activity savePersonPreferences(@WebParam(name="personId") int id, @WebParam(name="activity") Activity activity);
 	
 	//#10
 	@WebMethod(operationName="updatePersonPreferences")
-    @WebResult(name="activity") 
+    @WebResult(name="updatedActivity") 
 	public Activity updatePersonPreferences(@WebParam(name="personId") int id, @WebParam(name="activity") Activity activity);
 	
 	//#11
