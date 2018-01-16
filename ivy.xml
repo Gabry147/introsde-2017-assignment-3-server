@@ -29,15 +29,19 @@
         <!-- JAX-WS bundle dependency --> 
         <dependency org="com.sun.xml.ws" name="jaxws-rt" rev="2.3.0"/>
 	
-        <!-- Other dependencies -->
-        <dependency org="org.xerial" name="sqlite-jdbc" rev="3.20.1"/>
-        <dependency org="javax.ejb" name="javax.ejb-api" rev="3.2"/>
-        <dependency org="org.eclipse.persistence" name="javax.persistence" rev="2.2.0"/>
-        <dependency org="org.eclipse.persistence" name="org.eclipse.persistence.jpa" rev="2.7.0"/>
-        <dependency org="org.eclipse.persistence" name="org.eclipse.persistence.nosql" rev="2.7.0"/>
+        <!--DATABASES dependencies-->
+		<dependency org="org.postgresql" name="postgresql" rev="42.1.4"/>
         
-        <dependency org="net.sf.dozer" name="dozer" rev="5.5.1"/>
-        <!--<dependency org="joda-time" name="joda-time" rev="2.4"/>-->
-        <dependency org="org.slf4j" name="slf4j-nop" rev="1.7.25"/>
+        <!--EJB dependencies-->
+        <dependency org="javax.ejb" name="javax.ejb-api" rev="3.2"/>
+        <!--PERSISTENCE dependencies-->
+        <dependency org="org.hibernate" name="hibernate-core" rev="5.2.12.Final">
+            <exclude  org="dom4j"/>
+        </dependency>
+        <!-- Wrong dependency into hibernate, must exclude and include the right version-->
+        <dependency org="dom4j" name="dom4j" rev="1.6.1"/>
+
+        <!-- This library is called by another dependency but it gives error, force to download last version -->
+        <dependency org="com.ibm.icu" name="icu4j" rev="4.8"/>
     </dependencies>
 </ivy-module>

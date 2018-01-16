@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<endpoints
+  xmlns="http://java.sun.com/xml/ns/jax-ws/ri/runtime"
+  version="2.0">
+  <endpoint
+      name="PersonActivitiesService"
+      implementation="introsde.assignment3.soap.PersonActivitiesImpl"
+      url-pattern="/personactivities"/>
+</endpoints>
+<!-- based on: https://www.mkyong.com/webservices/jax-ws/deploy-jax-ws-web-services-on-tomcat/ -->
