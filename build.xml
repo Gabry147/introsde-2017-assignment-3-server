@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- ================================= 
-    Introduction to Service Design and Engineering 
-    Description: ANT build script for Assignment 3
-    Author: gabry147
+    Introduction to Service Design and Engineering Laboratory
+    Description: Assignment 3
+    Author: Gabry147
+    
+    Notes: 
+    
+    * This build file includes targets to download and install in your local project the Apache IVY jar
+    * IVY is used to manage dependencies on projects (e.g., jaxb libraries, jackson libraries for json, etc.) 
+    * 
+       TO USE IVY IN YOUR PROJECTS IN ORDER TO GET MANAGE DEPENDENCIES, MAKE SURE THE FOLLOWING LINES ARE
+       IN YOUR BUILD.XML UNTILL 'IVY-END-LINE'
+       
+       # The target "download-ivy" and "install-ivy" will download the ivy jar and place it in the "ivy" folder
+       # 
 -->
-<project name="assignment3-scarton" default="compile" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="sde3" default="compile" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 
 	<!-- PART 1: Ivy properties, download, installation and configuration -->
 	<property name="ivy.install.version" value="2.4.0" />
