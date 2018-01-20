@@ -34,7 +34,7 @@ public class Activity implements Serializable{
 	@Id
 	@GeneratedValue
     @XmlAttribute(name = "id")
-    protected int id;
+    protected Integer id;
 
     protected String name;
     
@@ -50,10 +50,10 @@ public class Activity implements Serializable{
     
     protected int preference;
     
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public String getName() {
@@ -96,15 +96,8 @@ public class Activity implements Serializable{
 	public Activity() {
 		//needed for XML
 	}
-	
-	public static List<Activity> getAllActivities() {
-		EntityManager em = PersonActivitiesDao.instance.createEntityManager();
-	    List<Activity> list = em.createNamedQuery("Activity.findAll", Activity.class).getResultList();
-	    PersonActivitiesDao.instance.closeConnections(em);
-	    return list;
-	}
 
-	//db access functions
+	//DAO methods
 	public static Activity saveActivity(Activity a) {
 		EntityManager em = PersonActivitiesDao.instance.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
@@ -140,6 +133,13 @@ public class Activity implements Serializable{
 		Activity a = em.find(Activity.class, activityId);
 		PersonActivitiesDao.instance.closeConnections(em);
 		return a;
+	}
+	
+	public static List<Activity> getAllActivities() {
+		EntityManager em = PersonActivitiesDao.instance.createEntityManager();
+	    List<Activity> list = em.createNamedQuery("Activity.findAll", Activity.class).getResultList();
+	    PersonActivitiesDao.instance.closeConnections(em);
+	    return list;
 	}
 
 }

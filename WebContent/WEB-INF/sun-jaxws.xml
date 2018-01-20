@@ -3,8 +3,7 @@
   xmlns="http://java.sun.com/xml/ns/jax-ws/ri/runtime"
   version="2.0">
   <endpoint
-      name="PersonActivitiesService"
-      implementation="introsde.assignment3.soap.PersonActivitiesImpl"
-      url-pattern="/personactivities"/>
+      name="SDE_Assignment_3"
+      implementation="introsde.assignment3.soap.PersonImpl"
+      url-pattern="/person"/>
 </endpoints>
-<!-- based on: https://www.mkyong.com/webservices/jax-ws/deploy-jax-ws-web-services-on-tomcat/ -->

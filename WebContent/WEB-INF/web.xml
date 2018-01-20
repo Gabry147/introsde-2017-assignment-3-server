@@ -9,15 +9,21 @@ Inc.//DTD Web Application 2.3//EN"
                 com.sun.xml.ws.transport.http.servlet.WSServletContextListener
         </listener-class>
     </listener>
+    
     <servlet>
-        <servlet-name>PersonActivities</servlet-name>
+        <servlet-name>SDE_Assignment_3</servlet-name>
         <servlet-class>
         	com.sun.xml.ws.transport.http.servlet.WSServlet
         </servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
+    
     <servlet-mapping>
-        <servlet-name>PersonActivities</servlet-name>
-        <url-pattern>/personactivities</url-pattern>
+        <servlet-name>SDE_Assignment_3</servlet-name>
+        <url-pattern>/person</url-pattern>
     </servlet-mapping>
+    
+    <session-config>
+        <session-timeout>120</session-timeout>
+    </session-config>
 </web-app>
