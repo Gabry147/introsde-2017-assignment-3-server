@@ -123,14 +123,17 @@ public class PersonImpl implements PersonService{
 	public Activity updatePersonPreference(Integer id, Activity activity) {
 		Person databasePerson = Person.getPersonById(id);
 		checkPersonExists(databasePerson);
-
+		ActivityType activityType = ActivityType.getById(activity.getType().getType());
+		if (activityType == null) {
+			throw new IllegalArgumentException("Non existant activity type");
+		}
 		Activity databaseActivity = Activity.getActivityById(activity.getId());
 		if (databaseActivity == null) {
 			throw new IllegalArgumentException("No activity with given ID");
 		}
 		
 		int indexOf = databasePerson.getActivitypreference().indexOf(databaseActivity);
-		databasePerson.getActivitypreference().get( indexOf ).setType(activity.getType());
+		databasePerson.getActivitypreference().get( indexOf ).setType(activityType);
 		databasePerson.getActivitypreference().get( indexOf ).setDescription(activity.getDescription());
 		databasePerson.getActivitypreference().get( indexOf ).setName(activity.getName());
 		databasePerson.getActivitypreference().get( indexOf ).setPlace(activity.getPlace());

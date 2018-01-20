@@ -1,7 +1,6 @@
 package introsde.assignment3.entities;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -11,15 +10,16 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.TypedQuery;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import introsde.assignment3.dao.PersonActivitiesDao;
@@ -27,29 +27,24 @@ import introsde.assignment3.dao.PersonActivitiesDao;
 @Entity
 @Table(name="Person")
 @NamedQuery(name="Person.findAll", query="SELECT p FROM Person p")
-@XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Person implements Serializable{
-
-	private static final long serialVersionUID = 1L;
-
 	@Id
-	@GeneratedValue
-    @XmlAttribute(name = "id")
-    protected Integer id;
+	@GeneratedValue(strategy=GenerationType.AUTO)
+    @XmlAttribute(name = "id", required = true)
+    private Integer id;								// ID is automatically generated
+    
+	@XmlElement(required = true)
+    private String firstname;
+    @XmlElement(required = true)
+    private String lastname;
+    @XmlElement(required = true)
+    private Date birthdate;   
+    @XmlElement(required = false)
+    @OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval = true) //orphanRemoval should eliminate Activity immediatly after person deletion
+    private List<Activity> activitypreference;		// ActivityPreference is a list One:Many fetched as eagerly and cascaded as ALL (no merge)
 
-    protected String firstname;
-
-    protected String lastname;
-
-    protected Date birthdate;
-   
-    @XmlElementWrapper(name = "activitypreference")
-    @XmlElement(name = "activity")
-    @OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
-    protected List<Activity> activitypreference;
-
-	
 	public Integer getId() {
 		return id;
 	}
@@ -90,17 +85,7 @@ public class Person implements Serializable{
 		this.activitypreference = activitypreference;
 	}
 	
-	public Person() {
-		//needed for XML
-	}
-	
-	public static List<Person> getAllPersons() {
-		EntityManager em = PersonActivitiesDao.instance.createEntityManager();
-	    List<Person> list = em.createNamedQuery("Person.findAll", Person.class).getResultList();
-	    PersonActivitiesDao.instance.closeConnections(em);
-	    return list;
-	}
-
+	// DAO methods
 	public static Person savePerson(Person p) {
 		EntityManager em = PersonActivitiesDao.instance.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
@@ -112,7 +97,10 @@ public class Person implements Serializable{
 	}
 	
 	public static Person updatePerson(Person p) {
-		EntityManager em = PersonActivitiesDao.instance.createEntityManager();
+		EntityManager em = PersonActivitiesDao.instance.createEntityManager();		
+		if(p.getId() == null) {
+			throw new IllegalArgumentException("Person without an ID");
+		}		
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
 		p=em.merge(p);
@@ -138,14 +126,11 @@ public class Person implements Serializable{
 		return p;
 	}
 	
-	public Person saveActivity(Activity a) {
-		if(this.activitypreference==null) {
-			this.activitypreference = new ArrayList<Activity>();
-		}
-		this.activitypreference.add(a);
+	// Get all the Person from the DB using the Named Query
+	public static List<Person> getAllPersons() {
 		EntityManager em = PersonActivitiesDao.instance.createEntityManager();
-		Person p = Person.updatePerson(this);
+		List<Person> list = em.createNamedQuery("Person.findAll", Person.class).getResultList();
 		PersonActivitiesDao.instance.closeConnections(em);
-		return p;
+		return list;
 	}
 }

@@ -4,15 +4,17 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
-import javax.persistence.Table;
+import javax.persistence.TypedQuery;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -21,34 +23,32 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import introsde.assignment3.dao.PersonActivitiesDao;
 
-
 @Entity
-@Table(name="Activity")
 @NamedQuery(name="Activity.findAll", query="SELECT a FROM Activity a")
-@XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Activity implements Serializable{
-
-	private static final long serialVersionUID = 1L;
-
 	@Id
-	@GeneratedValue
-    @XmlAttribute(name = "id")
+	@GeneratedValue(strategy=GenerationType.AUTO)
+    @XmlAttribute(name = "id", required = true)
     protected Integer id;
-
+	
+	@XmlElement(required = true)
     protected String name;
-    
+    @XmlElement(required = true)
     protected String description;
-
+    @XmlElement(required = true)
     protected String place;
-
-    @XmlElement(name = "type")
-    @ManyToOne(fetch=FetchType.EAGER)
+    
+    @XmlElement(required = true)
+    @ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.MERGE)
     protected ActivityType type;
-       
+    
+    @XmlElement(required = true)
     protected Date startdate;
     
-    protected int preference;
+    @XmlElement(required = true)
+    protected Integer preference;
     
 	public Integer getId() {
 		return id;
@@ -86,15 +86,11 @@ public class Activity implements Serializable{
 	public void setStartdate(Date startdate) {
 		this.startdate = startdate;
 	}
-	public int getPreference() {
+	public Integer getPreference() {
 		return preference;
 	}
-	public void setPreference(int preference) {
+	public void setPreference(Integer preference) {
 		this.preference = preference;
-	}
-	
-	public Activity() {
-		//needed for XML
 	}
 
 	//DAO methods
@@ -102,7 +98,7 @@ public class Activity implements Serializable{
 		EntityManager em = PersonActivitiesDao.instance.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
-		em.persist(a);
+		em.persist(a);								
 		tx.commit();
 		PersonActivitiesDao.instance.closeConnections(em);
 	    return a;
@@ -122,7 +118,7 @@ public class Activity implements Serializable{
 		EntityManager em = PersonActivitiesDao.instance.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
-	    a=em.merge(a);
+	    a=em.merge(a); //delete raise errors if the object isn't synchronized
 	    em.remove(a);
 	    tx.commit();
 	    PersonActivitiesDao.instance.closeConnections(em);
@@ -135,11 +131,17 @@ public class Activity implements Serializable{
 		return a;
 	}
 	
+	// Get all the Activities from the DB using the Named Query
 	public static List<Activity> getAllActivities() {
 		EntityManager em = PersonActivitiesDao.instance.createEntityManager();
-	    List<Activity> list = em.createNamedQuery("Activity.findAll", Activity.class).getResultList();
-	    PersonActivitiesDao.instance.closeConnections(em);
-	    return list;
+		List<Activity> list = em.createNamedQuery("Activity.findAll", Activity.class).getResultList();
+		PersonActivitiesDao.instance.closeConnections(em);
+		return list;
+	}
+	
+	// Method used to compare if the activity's date is in between 2 date values.
+	public boolean isInBetween(Date beginDate, Date endDate) {
+		return (startdate.before(endDate) && startdate.after(beginDate));
 	}
 
 }
