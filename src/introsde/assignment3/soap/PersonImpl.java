@@ -53,15 +53,7 @@ public class PersonImpl implements PersonService{
 		if (person.getId() != null) {
 			person.setId(null);
 		}
-		if (person.getActivitypreference() != null) {
-			List<Activity> activityPreference = person.getActivitypreference();
-			for (Activity activity : activityPreference) {
-				if(activity.getId() != null) {
-					activity.setId(null);
-				}
-			}
-		}
-		Person p = Person.updatePerson(person);
+		Person p = Person.savePerson(person);
 		return p;
 	}
 
