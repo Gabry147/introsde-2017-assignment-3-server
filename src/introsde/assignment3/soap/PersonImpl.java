@@ -61,6 +61,10 @@ public class PersonImpl implements PersonService{
 	public void deletePerson(Person person) {
 		Person databasePerson = Person.getPersonById(person.getId());
 		checkPersonExists(databasePerson);
+		List<Activity> activities = databasePerson.getActivitypreference();
+		for(Activity a : activities) {
+			Activity.removeActivity(a);
+		}
 		Person.removePerson(person);
 	}
 
