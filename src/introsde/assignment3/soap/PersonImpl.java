@@ -106,7 +106,7 @@ public class PersonImpl implements PersonService{
 			activity.setId(null);
 		}
 		if(databasePerson.getActivitypreference()==null) {
-			databasePerson.getActivitypreference() = new ArrayList<Activity>();
+			databasePerson.setActivitypreference(new ArrayList<Activity>());
 		}
 		databasePerson.getActivitypreference().add(activity);
 		databasePerson = Person.updatePerson(databasePerson);
@@ -116,7 +116,6 @@ public class PersonImpl implements PersonService{
 	@Override
 	public Activity updatePersonPreference(Integer id, Activity activity) {
 		Person databasePerson = Person.getPersonById(id);
-		checkPersonExists(databasePerson);
 		ActivityType activityType = ActivityType.getById(activity.getType().getType());
 		if (activityType == null) {
 			throw new IllegalArgumentException("Non existant activity type");
@@ -128,15 +127,16 @@ public class PersonImpl implements PersonService{
 		
 		int indexOf = databasePerson.getActivitypreference().indexOf(databaseActivity);
 		System.out.println("indexof: " + indexOf);
-		databasePerson.getActivitypreference().get( indexOf ).setType(activityType);
-		databasePerson.getActivitypreference().get( indexOf ).setDescription(activity.getDescription());
-		databasePerson.getActivitypreference().get( indexOf ).setName(activity.getName());
-		databasePerson.getActivitypreference().get( indexOf ).setPlace(activity.getPlace());
-		databasePerson.getActivitypreference().get( indexOf ).setStartdate(activity.getStartdate());
-		databasePerson.getActivitypreference().get( indexOf ).setPreference(activity.getPreference());
+		System.out.println("size: " + databasePerson.getActivitypreference().size);
+		databaseActivity.setType(activityType);
+		databaseActivity.setDescription(activity.getDescription());
+		databaseActivity.setName(activity.getName());
+		databaseActivity.setPlace(activity.getPlace());
+		databaseActivity.setStartdate(activity.getStartdate());
+		databaseActivity.setPreference(activity.getPreference());
 		databasePerson = Person.updatePerson(databasePerson);
 		
-		return databasePerson.getActivitypreference().get( indexOf );
+		return databaseActivity;
 	}
 
 	@Override
