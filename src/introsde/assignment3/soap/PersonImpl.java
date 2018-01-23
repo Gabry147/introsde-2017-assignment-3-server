@@ -127,7 +127,7 @@ public class PersonImpl implements PersonService{
 		
 		int indexOf = databasePerson.getActivitypreference().indexOf(databaseActivity);
 		System.out.println("indexof: " + indexOf);
-		System.out.println("size: " + databasePerson.getActivitypreference().size);
+		System.out.println("size: " + databasePerson.getActivitypreference().size());
 		databaseActivity.setType(activityType);
 		databaseActivity.setDescription(activity.getDescription());
 		databaseActivity.setName(activity.getName());
