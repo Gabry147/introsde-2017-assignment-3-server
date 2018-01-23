@@ -105,7 +105,9 @@ public class PersonImpl implements PersonService{
 		if(activity.getId() != null) {
 			activity.setId(null);
 		}
-		
+		if(databasePerson.getActivitypreference()==null) {
+			databasePerson.getActivitypreference() = new ArrayList<Activity>();
+		}
 		databasePerson.getActivitypreference().add(activity);
 		databasePerson = Person.updatePerson(databasePerson);
 		
@@ -125,6 +127,7 @@ public class PersonImpl implements PersonService{
 		}
 		
 		int indexOf = databasePerson.getActivitypreference().indexOf(databaseActivity);
+		System.out.println("indexof: " + indexOf);
 		databasePerson.getActivitypreference().get( indexOf ).setType(activityType);
 		databasePerson.getActivitypreference().get( indexOf ).setDescription(activity.getDescription());
 		databasePerson.getActivitypreference().get( indexOf ).setName(activity.getName());
